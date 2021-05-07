@@ -1,5 +1,7 @@
 import React from 'react';
-import { ImageBackground,TextInput,Image,View, Text, StyleSheet } from 'react-native';
+import db from '../config'
+import firebase from "firebase"
+import { TouchableOpacity,ImageBackground,TextInput,Image,View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Card from '../components/Card';
 import Constants from 'expo-constants';
@@ -14,6 +16,14 @@ export default class FuelRecordScreen extends React.Component {
     Fuel:""
 
   }
+}
+saveData=()=>{
+  db.collection("FuelExpense").add({
+    "odo_reading":this.state.odo,
+    "price":this.state.price,
+    "fuel_quantity":this.state.fuel
+
+  })
 }
     render(){
     return (
@@ -30,11 +40,7 @@ export default class FuelRecordScreen extends React.Component {
         //require('./images/background_image.jpg')        //
       >
    </ImageBackground> */} 
-   <LinearGradient
-          // Background Linear Gradient
-           colors={['#3D7DF9', 'transparent']}
-          style={styles.background}
-        />
+  
  
   
   
@@ -84,7 +90,12 @@ export default class FuelRecordScreen extends React.Component {
         />
         </View>
         </Card>
-    
+        <TouchableOpacity
+                style={styles.button}
+                onPress={()=>{this.saveData()}}
+                >
+                <Text style={styles.buttontext}>Save</Text>
+              </TouchableOpacity>
      
       </View>
     );
@@ -113,9 +124,23 @@ export default class FuelRecordScreen extends React.Component {
      
      
     },
-    button: {
-      marginVertical:20,
-    },
+    button:{
+      width:"45%",
+      height:50,
+      justifyContent:'center',
+      alignItems:'center',
+      borderRadius:12,
+      backgroundColor:"#FD5858",
+      shadowColor: "#03BFB8",
+      shadowOffset: {
+         width: 0,
+         height: 8,
+      },
+      shadowOpacity: 0.44,
+      shadowRadius: 10.32,
+      elevation:16,
+      marginTop:150
+      },
     background: {
       position: 'absolute',
     
@@ -137,5 +162,11 @@ export default class FuelRecordScreen extends React.Component {
       resizeMode: 'repeat', // or 'stretch'
       
   },
+  buttontext:{
+    fontSize:30,
+    color:"blue"
+   
+  },
+
     
   });
